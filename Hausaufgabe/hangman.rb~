@@ -26,7 +26,7 @@
 		array = Array.new;
 		for i in 0..@sRateword.size-1 do
 			if(@sRateword[i]==c)
-				array<<i;
+				array<<i
 			end
 		end
 		return array;
