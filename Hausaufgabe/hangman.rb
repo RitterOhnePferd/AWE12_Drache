@@ -91,7 +91,7 @@
 
 	def replacebyTest()
 		@sTargetword = "Hello"
-		replaceby(1, "a")
+		replaceby([1], "a")
 		if(@sTargetword == "Hallo")
 			return true;
 		end
