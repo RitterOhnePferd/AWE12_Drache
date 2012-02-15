@@ -13,11 +13,6 @@
 	def initializeblank		
 		return "-" *@sRateword.size;
 	end
-	 
-	#reads first letter from keyboard 
-	def readfirstletter() 
-		return gets.chomp[0];
-	end
 
 	# returns array of index positions for all characters 'c' found
 	def indexPosRatewordContains(c)
@@ -50,15 +45,15 @@
 		puts "----HANGMAN----";
 
 		puts "Start?";
-		c = readfirstletter();
+		c = gets.chomp[0];
 		if(c == "t")
-			testAll()
+			testAll();
 			return
 		end
 
 		while(checkblank())
 			@iCount+=1; 
-			c = readfirstletter();
+			c = gets.chomp[0];;
 			index = indexPosRatewordContains(c);
 			replaceby(index, c);
 			puts @sTargetword;
