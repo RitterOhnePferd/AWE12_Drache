@@ -5,11 +5,9 @@
 	#constructor
 	def initialize(sRateword)
 		@sRateword = sRateword;
-		@targetword = initializeblank();
-		@count =0;
+		@sTargetword = initializeblank();
+		@iCount =0;
 	end
-	
-	#some method declarations
 	
 	#returns a String with  sRateword.size "-"s
 	def initializeblank		
@@ -21,10 +19,10 @@
 		return gets.chomp[0];
 	end
 
-	# returns index of searched charakter in searched word
-	def indexsRatewordcontains(c)
+	# returns array of index positions for all characters 'c' found
+	def indexPosRatewordContains(c)
 		array = Array.new;
-		for i in 0..@sRateword.size-1 do
+		for i in 0...@sRateword.size do
 			if(@sRateword[i]==c)
 				array<<i;
 			end
@@ -34,31 +32,80 @@
 	
 	#replaces "-" in targetword by read char
 	def replaceby(index, c)
-		for i in 0..index.size()-1 do
-			@targetword[index[i]]=c;
+		for i in 0...index.size() do
+			@sTargetword[index[i]]=c;
 		end
 	end
 	
 	#checks if targetword contains "-"
 	def checkblank()
-		if(@targetword.include? "-")
+		if(@sTargetword.include? "-")
 			return true;
 		end
 		return false;
 	end
 	
-	#this is where the magic happens
+	#class (program) main logic
 	def start
-		puts("----HANGMAN----");
-		while(checkblank())
-			@count+=1; 
-			c = readfirstletter();
-			index =indexsRatewordcontains(c);
-			replaceby(index, c);
-			puts @targetword;
+		puts "----HANGMAN----";
+
+		puts "Start?";
+		c = readfirstletter();
+		if(c == "t")
+			testAll()
+			return
 		end
-		puts "Gesuchtes Wort gefunden! Und das mit nur #{@count} Versuchen!"
+
+		while(checkblank())
+			@iCount+=1; 
+			c = readfirstletter();
+			index = indexPosRatewordContains(c);
+			replaceby(index, c);
+			puts @sTargetword;
+		end
+		puts "Gesuchtes Wort gefunden! Und das mit nur #{@iCount} Versuchen!";
 	end
+
+	
+	#TDD
+	def testAll()
+		if (
+			indexPosRatewordContainsTest() &&
+			replacebyTest() &&
+			checkblankTest()
+		   )
+			puts "Test erfolgreich!"
+		else
+			puts "Test fehlgeschlagen."
+		end
+	end
+
+	def indexPosRatewordContainsTest()
+		@sRateword = "Test123Test"
+		arrReturned = indexPosRatewordContains("e")
+		if (arrReturned == [1,8])
+			return true;
+		end
+		return false;	
+	end
+
+	def replacebyTest()
+		@sTargetword = "Hello"
+		replaceby(1, "a")
+		if(@sTargetword == "Hallo")
+			return true;
+		end
+		return false;
+	end
+
+	def checkblankTest()
+		@sTargetword = "He-__-llo Wo-__-rld"
+		if checkblank()
+			return true;
+		end
+		return false;
+	end
+
 end
 
 #"main"
